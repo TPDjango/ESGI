@@ -26,8 +26,19 @@ class Student(models.Model):
 class Image(models.Model):
     image_url = models.CharField(max_length=220)
     student = models.OneToOneField(Student)
+    def __str__(self):
+        return f"{self.image_url} -"
+
+    class Meta:
+        unique_together = ('image_url', 'image_url')
 
 class Cours(models.Model):
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     student = models.ManyToManyField(Student)
+
+    def __str__(self):
+        return f"{self.name} -"
+
+    class Meta:
+        unique_together = ('name', 'name')
