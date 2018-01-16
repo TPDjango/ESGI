@@ -7,9 +7,9 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 from django.http import Http404
 from .models import Professor
-from .serializers import ProfessorSerializer
+from .serializers import ProfessorSerializer, StudentSerializer, ImageSerializer, CoursSerializer
 
-from .models import Professor
+from .models import Professor, Student, Image, Cours
 
 
 def index(request):
@@ -28,6 +28,63 @@ def getProfessors(request):
             return HttpResponse(status=400)
 
     serializer = ProfessorSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+def getStudents(request):
+    if request.method == 'GET':
+        students = Student.objects.all()
+        serializer = StudentSerializer(students, many=True)
+        return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        try:
+            data = JSONParser().parse(request)
+        except ParseError:
+            return HttpResponse(status=400)
+
+    serializer = StudentSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+def getImages(request):
+    if request.method == 'GET':
+        images = Image.objects.all()
+        serializer = ImageSerializer(images, many=True)
+        return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        try:
+            data = JSONParser().parse(request)
+        except ParseError:
+            return HttpResponse(status=400)
+
+    serializer = ImageSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+def getCours(request):
+    if request.method == 'GET':
+        cours = Cours.objects.all()
+        serializer = CoursSerializer(cours, many=True)
+        return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        try:
+            data = JSONParser().parse(request)
+        except ParseError:
+            return HttpResponse(status=400)
+
+    serializer = CoursSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
