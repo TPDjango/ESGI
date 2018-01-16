@@ -11,11 +11,11 @@ from .serializers import ProfessorSerializer, StudentSerializer, ImageSerializer
 
 from .models import Professor, Student, Image, Cours
 
-
+@csrf_exempt
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
-
+@csrf_exempt
 def getProfessors(request):
     if request.method == 'GET':
         professors = Professor.objects.all()
@@ -34,7 +34,7 @@ def getProfessors(request):
     else:
         return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-
+@csrf_exempt
 def getStudents(request):
     if request.method == 'GET':
         students = Student.objects.all()
@@ -53,7 +53,7 @@ def getStudents(request):
     else:
         return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-
+@csrf_exempt
 def getImages(request):
     if request.method == 'GET':
         images = Image.objects.all()
@@ -72,7 +72,7 @@ def getImages(request):
     else:
         return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-
+@csrf_exempt
 def getCours(request):
     if request.method == 'GET':
         cours = Cours.objects.all()
