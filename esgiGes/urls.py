@@ -6,5 +6,5 @@ urlpatterns = [
     # ex: /esgiGes/
     url(r'^$', views.index, name='index'),
     # ex: /esgiGes/professors/
-    url(r'^professors/$', views.professors, name='professors'),
+    url(r'^professors/$', views.getProfessors, name='professors'),
 ]
