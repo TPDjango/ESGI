@@ -7,7 +7,6 @@ ESGI/settings.pyc
 ESGI/urls.pyc
 ESGI/views.pyc
 ESGI/models.pyc
-
 .idea/workspace.xml
 ESGI/__pycache__/__init__.cpython-36.pyc   ESGI/__pycache__/settings.cpython-36.pyc
 ESGI/__pycache__/urls.cpython-36.pyc
