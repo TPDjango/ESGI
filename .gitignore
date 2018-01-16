@@ -1,3 +1,7 @@
+ ESGI/__pycache__/
+.idea/
+.DS_Storey
+esgiGes/migrations/
 .idea/workspace.xml
 ESGI/settings.pyc
 ESGI/urls.pyc
