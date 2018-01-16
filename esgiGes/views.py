@@ -31,3 +31,19 @@ def getProfessors(request):
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
     else:
         return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+def Professors(request):
+    if request.method == 'GET':
+        return HttpResponse("Get prof.")
+    elif request.method == 'POST':
+        try:
+            data = JSONParser().parse(request)
+        except ParseError:
+            return HttpResponse(status=400)
+
+    serializer = ProfessorSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
