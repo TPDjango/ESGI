@@ -15,12 +15,17 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
+    student = StudentSerializer()
+
     class Meta:
         model = Image
-        fields = ('id', 'image_url', 'image_url')
+        fields = ('id', 'image_url', 'student')
 
 
 class CoursSerializer(serializers.ModelSerializer):
+    student = StudentSerializer(many=True)
+    professor = ProfessorSerializer()
+
     class Meta:
         model = Cours
-        fields = ('id', 'name', 'name')
+        fields = ('id', 'name', 'student', 'professor')
