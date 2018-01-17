@@ -14,21 +14,30 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = ('id', 'code', 'name')
 
 
-class ImageSerializer(serializers.ModelSerializer):
+class getImageSerializer(serializers.ModelSerializer):
     student = StudentSerializer()
 
     class Meta:
         model = Image
         fields = ('id', 'image_url', 'student')
 
-    def create(self, validated_data):
-        return Image.objects.create(**validated_data)
+class postImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Image
+        fields = ('id', 'image_url', 'student')
 
 
-class CoursSerializer(serializers.ModelSerializer):
+class getCoursSerializer(serializers.ModelSerializer):
     student = StudentSerializer(many=True)
     professor = ProfessorSerializer()
 
     class Meta:
         model = Cours
         fields = ('id', 'name', 'student', 'professor')
+
+class postCoursSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Cours
+        fields = ('id', 'name', 'professor')
