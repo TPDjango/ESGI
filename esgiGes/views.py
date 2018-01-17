@@ -1,15 +1,13 @@
 from django.db import DatabaseError
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.exceptions import ParseError
 from rest_framework.parsers import JSONParser
 
 from .models import Professor, Student, Image, Cours
+from .serializers import ProfessorSerializer, StudentSerializer, getImageSerializer, getCoursSerializer, postImageSerializer, postCoursSerializer
 from django.shortcuts import get_object_or_404
-from .serializers import ProfessorSerializer, StudentSerializer, getImageSerializer, getCoursSerializer, postImageSerializer , postCoursSerializer
-
 
 @csrf_exempt
 def index(request):
@@ -198,6 +196,7 @@ def getImages(request):
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
 @csrf_exempt
 def getCours(request):
