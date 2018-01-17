@@ -86,7 +86,8 @@ def getImages(request):
         except ParseError:
             return HttpResponse(status=400)
 
-    serializer = ImageSerializer(data=data)
+    serializer = ImageSerializer(data=data.get('student'))
+    return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
     if serializer.is_valid():
         serializer.save()
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
