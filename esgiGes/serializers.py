@@ -21,6 +21,9 @@ class ImageSerializer(serializers.ModelSerializer):
         model = Image
         fields = ('id', 'image_url', 'student')
 
+    def create(self, validated_data):
+        return Image.objects.create(**validated_data)
+
 
 class CoursSerializer(serializers.ModelSerializer):
     student = StudentSerializer(many=True)
