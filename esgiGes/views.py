@@ -70,7 +70,7 @@ def get_student(request, id):
             student.code = data['code']
             student.name = data['name']
             student.save()
-            serializer = ProfessorSerializer(student, many=False)
+            serializer = StudentSerializer(student, many=False)
             return JsonResponse(serializer.data, safe=False, status=status.HTTP_202_ACCEPTED)
         except DatabaseError:
             return HttpResponse('Update failed', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -80,7 +80,7 @@ def get_student(request, id):
 def get_image(request, id):
     try:
         image = get_object_or_404(Image, pk=id)
-        serializer = StudentSerializer(image, many=False)
+        serializer = getImageSerializer(image, many=False)
     except DatabaseError:
         return HttpResponse('Professor with id {} not found'.format(id), status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
@@ -98,10 +98,9 @@ def get_image(request, id):
     elif request.method == 'PUT':
         try:
             data = JSONParser().parse(request)
-            image.first_name = data['first_name']
-            image.last_name = data['last_name']
+            image.image_url = data['image_url']
             image.save()
-            serializer = ProfessorSerializer(image, many=False)
+            serializer = postImageSerializer(image, many=False)
             return JsonResponse(serializer.data, safe=False, status=status.HTTP_202_ACCEPTED)
         except DatabaseError:
             return HttpResponse('Update failed', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -154,7 +153,7 @@ def getProfessors(request):
         serializer.save()
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
     else:
-        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 
 @csrf_exempt
@@ -174,7 +173,7 @@ def getStudents(request):
         serializer.save()
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
     else:
-        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 
 @csrf_exempt
@@ -194,7 +193,7 @@ def getImages(request):
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+            return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 
 @csrf_exempt
@@ -214,4 +213,4 @@ def getCours(request):
         serializer.save()
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
     else:
-        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
