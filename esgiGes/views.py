@@ -7,6 +7,8 @@ from rest_framework.exceptions import ParseError
 from rest_framework.parsers import JSONParser
 
 from .models import Professor, Student, Image, Cours
+from .serializers import ProfessorSerializer, StudentSerializer, ImageSerializer, CoursSerializer
+from django.shortcuts import get_object_or_404
 from .serializers import ProfessorSerializer, StudentSerializer, getImageSerializer, getCoursSerializer, postImageSerializer , postCoursSerializer
 
 
@@ -16,7 +18,7 @@ def index(request):
 
 
 @csrf_exempt
-def get_professor(request, id):
+def get_professor(request,id):
     if request.method == 'GET':
         try:
             professor = get_object_or_404(Professor, pk=id)
@@ -76,7 +78,7 @@ def getStudents(request):
 def getImages(request):
     if request.method == 'GET':
         images = Image.objects.all()
-        serializer = getImageSerializer(images, many=True)
+        serializer = ImageSerializer(images, many=True)
         return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
     elif request.method == 'POST':
         try:
@@ -84,18 +86,18 @@ def getImages(request):
         except ParseError:
             return HttpResponse(status=400)
 
-    serializer = postImageSerializer(data=data)
+    serializer = ImageSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
     else:
-        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 @csrf_exempt
 def getCours(request):
     if request.method == 'GET':
         cours = Cours.objects.all()
-        serializer = getCoursSerializer(cours, many=True)
+        serializer = CoursSerializer(cours, many=True)
         return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
     elif request.method == 'POST':
         try:
@@ -103,9 +105,9 @@ def getCours(request):
         except ParseError:
             return HttpResponse(status=400)
 
-    serializer = postCoursSerializer(data=data)
+    serializer = CoursSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
     else:
-        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
