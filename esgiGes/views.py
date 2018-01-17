@@ -7,7 +7,6 @@ from rest_framework.exceptions import ParseError
 from rest_framework.parsers import JSONParser
 
 from .models import Professor, Student, Image, Cours
-from .serializers import ProfessorSerializer, StudentSerializer, ImageSerializer, CoursSerializer
 from django.shortcuts import get_object_or_404
 from .serializers import ProfessorSerializer, StudentSerializer, getImageSerializer, getCoursSerializer, postImageSerializer , postCoursSerializer
 
@@ -185,7 +184,7 @@ def getStudents(request):
 def getImages(request):
     if request.method == 'GET':
         images = Image.objects.all()
-        serializer = ImageSerializer(images, many=True)
+        serializer = getImageSerializer(images, many=True)
         return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
     elif request.method == 'POST':
         try:
@@ -193,8 +192,7 @@ def getImages(request):
         except ParseError:
             return HttpResponse(status=400)
 
-        #print(data.get('student'))
-        serializer = StudentSerializer(data=data.get('student'))
+        serializer = postImageSerializer(data=data.get('student'))
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
@@ -205,7 +203,7 @@ def getImages(request):
 def getCours(request):
     if request.method == 'GET':
         cours = Cours.objects.all()
-        serializer = CoursSerializer(cours, many=True)
+        serializer = getCoursSerializer(cours, many=True)
         return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
     elif request.method == 'POST':
         try:
@@ -213,7 +211,7 @@ def getCours(request):
         except ParseError:
             return HttpResponse(status=400)
 
-    serializer = CoursSerializer(data=data)
+    serializer = postCoursSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
