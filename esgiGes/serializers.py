@@ -37,9 +37,7 @@ class getCoursSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'student', 'professor')
 
 class postCoursSerializer(serializers.ModelSerializer):
-    student = StudentSerializer(many=True)
-    professor = ProfessorSerializer()
 
     class Meta:
         model = Cours
-        fields = ('id', 'name', 'student', 'professor')
+        fields = ('id', 'name', 'professor')
