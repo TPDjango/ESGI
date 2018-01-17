@@ -67,8 +67,8 @@ def get_student(request, id):
     elif request.method == 'PUT':
         try:
             data = JSONParser().parse(request)
-            student.first_name = data['first_name']
-            student.last_name = data['last_name']
+            student.code = data['code']
+            student.name = data['name']
             student.save()
             serializer = ProfessorSerializer(student, many=False)
             return JsonResponse(serializer.data, safe=False, status=status.HTTP_202_ACCEPTED)
@@ -129,10 +129,9 @@ def get_cours(request, id):
     elif request.method == 'PUT':
         try:
             data = JSONParser().parse(request)
-            cours.first_name = data['first_name']
-            cours.last_name = data['last_name']
+            cours.name = data['name']
             cours.save()
-            serializer = ProfessorSerializer(cours, many=False)
+            serializer = postCoursSerializer(cours, many=False)
             return JsonResponse(serializer.data, safe=False, status=status.HTTP_202_ACCEPTED)
         except DatabaseError:
             return HttpResponse('Update failed', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -190,7 +189,7 @@ def getImages(request):
         except ParseError:
             return HttpResponse(status=400)
 
-        serializer = postImageSerializer(data=data.get('student'))
+        serializer = postImageSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)

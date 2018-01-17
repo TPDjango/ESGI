@@ -16,5 +16,5 @@ urlpatterns = [
     url(r'^images/(?P<id>\d+)/$', views.get_image, name="get_image"),
     # ex: /esgiGes/courses/
     url(r'^courses/$', views.getCours, name='courses'),
-    url(r'^images/(?P<id>\d+)/$', views.get_cours, name="get_cours"),
+    url(r'^courses/(?P<id>\d+)/$', views.get_cours, name="get_cours"),
 ]
