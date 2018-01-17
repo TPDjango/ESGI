@@ -24,7 +24,7 @@ class Student(models.Model):
 
 class Image(models.Model):
     image_url = models.CharField(max_length=220)
-    student = models.OneToOneField(Student,on_delete=models.CASCADE)
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
     def __str__(self):
         return f"{self.image_url} -"
 
